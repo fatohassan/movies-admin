@@ -28,6 +28,16 @@ export default function MoviesList() {
     }, 2000);
   }, []);
 
+  const deleteMovie = async (id:any) => {
+    const response = await axios.delete("http://localhost:5000/movie/" + id)
+    if (response.status === 200) {
+      fetchMovie()
+    }
+    else {
+      throw new Error('Can not delete due to internal error')
+    }
+  }
+
   return (
     <div className="container my-4">
       <h2 className="text-center mb-4">Movies</h2>
@@ -85,11 +95,12 @@ export default function MoviesList() {
                     <Link
                       className="btn btn-primary btn-sm me-1"
                       // add the id to be edited
-                      to={"/admin/movies/edit/"}
+                      to={`/admin/movies/update/${movie.id}`}
                     >
                       Edit
                     </Link>
-                    <button type="button" className="btn btn-danger btn-sm">
+                    <button type="button" className="btn btn-danger btn-sm"
+                    onClick={() => deleteMovie(movie.id)}>
                       Delete
                     </button>
                   </td>
