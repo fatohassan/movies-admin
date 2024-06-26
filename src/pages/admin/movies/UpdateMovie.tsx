@@ -3,33 +3,42 @@ import { useEffect, useState } from "react";
 // import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+type Props = {
+  original_title: string;
+  overview: string;
+  release_date: string;
+  vote_average: number;
+  backdrop_path: string;
+  image: string;
+  id: number;
+};
+
 export default function UpdateMovie() {
   // const [validationErrors, setValidationErrors] = useState({})
   const params = useParams();
-  const [initialState, setInitialState] = useState();
+  const [initialState, setInitialState] = useState<Props>();
   const navigate = useNavigate();
 
   const getMovies = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/movie/" + params.id);
+      const response = await axios.get(
+        "http://localhost:5000/movie/" + params.id
+      );
       const data = await response.data;
       setInitialState(data);
 
       if (response.status === 201) {
         navigate("/admin/movies/");
-      } 
-      // else if (response.status === 400) {
-      //   alert("validation error");
-      // } else {
-      //   alert("unable to read movie");
-      // }
+      }
     } catch (error) {
       console.log(error);
       alert("unable to connect to server");
     }
   };
 
-  useEffect(() => {getMovies()}, [])
+  useEffect(() => {
+    getMovies();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,7 +47,7 @@ export default function UpdateMovie() {
     const movie = Object.fromEntries(formData.entries());
     try {
       const response = await axios.put(
-        "http://localhost:5000/movie/"+ params.id,
+        "http://localhost:5000/movie/" + params.id,
         formData
       );
       const data = await response.data;
@@ -56,10 +65,6 @@ export default function UpdateMovie() {
     }
   };
 
-  type elements = {
-    id: any;
-    original_title: any;
-  };
   return (
     <div className="container my-4">
       <div className="row">
@@ -88,8 +93,10 @@ export default function UpdateMovie() {
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label">Title</label>
                 <div className="col-sm-8">
-                  <input className="form-control" name="original_title" 
-                  // defaultValue={initialState.original_title}
+                  <input
+                    className="form-control"
+                    name="original_title"
+                    defaultValue={initialState.original_title}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -97,8 +104,11 @@ export default function UpdateMovie() {
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label">Rating</label>
                 <div className="col-sm-8">
-                  <input className="form-control" name="rating" type="number" 
-                  // defaultValue={initialState.vote_average}
+                  <input
+                    className="form-control"
+                    name="rating"
+                    type="number"
+                    defaultValue={initialState.vote_average}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -106,8 +116,10 @@ export default function UpdateMovie() {
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label">Release Date</label>
                 <div className="col-sm-8">
-                  <input className="form-control" name="release_date" 
-                  // defaultValue={initialState.release_date}
+                  <input
+                    className="form-control"
+                    name="release_date"
+                    defaultValue={initialState.release_date}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -115,22 +127,31 @@ export default function UpdateMovie() {
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label">Description</label>
                 <div className="col-sm-8">
-                  <textarea className="form-control" name="overview" rows={3} 
-                  // defaultValue={initialState.overview}
+                  <textarea
+                    className="form-control"
+                    name="overview"
+                    rows={3}
+                    defaultValue={initialState.overview}
                   />
                   <span className="text-danger"></span>
                 </div>
               </div>
-              {/* <div className="row mb-3">
-              <div className="offset-sm-4 col-sm-8">
-                <img src='' width='150' alt='..'/>
-              </div>
-            </div> */}
+
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label">Image</label>
                 <div className="col-sm-8">
-                  <input className="form-control" name="image" type="file" 
-                  // defaultValue={initialState.backdrop_path}
+                  <img
+                    src={
+                      initialState.image
+                        ? initialState.image
+                        : `https://image.tmdb.org/t/p/w1280${initialState.backdrop_path}`
+                    }
+                    width="200"
+                  />
+                  <input
+                    className="form-control mt-4"
+                    name="image"
+                    type="file"
                   />
                   <span className="text-danger"></span>
                 </div>

@@ -9,6 +9,7 @@ type Movie = {
   vote_average: number;
   release_date: string;
   backdrop_path: string;
+  image: string;
 };
 
 export default function MoviesList() {
@@ -18,6 +19,7 @@ export default function MoviesList() {
   const fetchMovie = async () => {
     const res = await axios.get("http://localhost:5000/");
     const data = await res.data;
+
     setMovies(data);
   };
 
@@ -28,15 +30,14 @@ export default function MoviesList() {
     }, 2000);
   }, []);
 
-  const deleteMovie = async (id:any) => {
-    const response = await axios.delete("http://localhost:5000/movie/" + id)
+  const deleteMovie = async (id: any) => {
+    const response = await axios.delete("http://localhost:5000/movie/" + id);
     if (response.status === 200) {
-      fetchMovie()
+      fetchMovie();
+    } else {
+      throw new Error("Can not delete due to internal error");
     }
-    else {
-      throw new Error('Can not delete due to internal error')
-    }
-  }
+  };
 
   return (
     <div className="container my-4">
@@ -85,7 +86,11 @@ export default function MoviesList() {
                   <td>{movie.vote_average}</td>
                   <td>
                     <img
-                      src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
+                      src={
+                        movie.image
+                          ? movie.image
+                          : `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
+                      }
                       width="100"
                       alt="..."
                     />
@@ -99,8 +104,11 @@ export default function MoviesList() {
                     >
                       Edit
                     </Link>
-                    <button type="button" className="btn btn-danger btn-sm"
-                    onClick={() => deleteMovie(movie.id)}>
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => deleteMovie(movie.id)}
+                    >
                       Delete
                     </button>
                   </td>
