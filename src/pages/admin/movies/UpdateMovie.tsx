@@ -1,67 +1,46 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-// import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
-type Props = {
-  original_title: string;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-  backdrop_path: string;
-  image: string;
-  id: number;
-};
+import { UPDATE_MOVIE_MUTATION } from "../movieQueries/moviesMutations";
+import { LOAD_MOVIE } from "../movieQueries/moviesQueries";
 
 export default function UpdateMovie() {
-  // const [validationErrors, setValidationErrors] = useState({})
   const params = useParams();
-  const [initialState, setInitialState] = useState<Props>();
   const navigate = useNavigate();
 
-  const getMovies = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/movie/" + params.id
-      );
-      const data = await response.data;
-      setInitialState(data);
+  const [updateMovie] = useMutation(UPDATE_MOVIE_MUTATION);
 
-      if (response.status === 201) {
-        navigate("/admin/movies/");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("unable to connect to server");
-    }
-  };
-
-  useEffect(() => {
-    getMovies();
-  }, []);
+  const { data, loading } = useQuery(LOAD_MOVIE, {
+    variables: { id: params.id },
+  });
+  console.log(data);
+  if (loading) {
+    return <div> loading</div>;
+  }
+  const movie = data.movie;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const movie = Object.fromEntries(formData.entries());
-    try {
-      const response = await axios.put(
-        "http://localhost:5000/movie/" + params.id,
-        formData
-      );
-      const data = await response.data;
+    const movieObj = Object.fromEntries(formData.entries());
 
-      if (response.status === 201) {
-        navigate("/admin/movies/");
-      } else if (response.status === 400) {
-        alert("validation error");
-      } else {
-        alert("unable to create movie");
-      }
+    try {
+      await updateMovie({
+        variables: {
+          id: movie.id,
+          movieInput: {
+            original_title: movieObj?.original_title,
+            release_date: movieObj?.release_date,
+            vote_average: movieObj?.vote_average,
+            backdrop_path: movieObj?.backdrop_path,
+            overview: movieObj?.overview,
+          },
+        },
+      });
+
+      navigate("/admin/movies/");
     } catch (error) {
-      console.log(error);
-      alert("unable to connect to server");
+      alert("Can not connect to update movie");
     }
   };
 
@@ -81,22 +60,16 @@ export default function UpdateMovie() {
               />
             </div>
           </div>
-          {initialState && (
+          {movie && (
             <form onSubmit={handleSubmit}>
-              {/* <div className="row mb-3">
-              <label className="col-sm-4 col-form-label">ID</label>
-              <div className="col-sm-8">
-                <input className="form-control" name="id" />
-                <span className="text-danger"></span>
-              </div>
-            </div> */}
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label">Title</label>
                 <div className="col-sm-8">
                   <input
                     className="form-control"
+                    id="original_title"
+                    defaultValue={movie.original_title}
                     name="original_title"
-                    defaultValue={initialState.original_title}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -106,9 +79,9 @@ export default function UpdateMovie() {
                 <div className="col-sm-8">
                   <input
                     className="form-control"
-                    name="rating"
+                    name="vote_average"
                     type="number"
-                    defaultValue={initialState.vote_average}
+                    defaultValue={movie.vote_average}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -119,7 +92,7 @@ export default function UpdateMovie() {
                   <input
                     className="form-control"
                     name="release_date"
-                    defaultValue={initialState.release_date}
+                    defaultValue={movie.release_date}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -131,7 +104,7 @@ export default function UpdateMovie() {
                     className="form-control"
                     name="overview"
                     rows={3}
-                    defaultValue={initialState.overview}
+                    defaultValue={movie.overview}
                   />
                   <span className="text-danger"></span>
                 </div>
@@ -142,9 +115,9 @@ export default function UpdateMovie() {
                 <div className="col-sm-8">
                   <img
                     src={
-                      initialState.image
-                        ? initialState.image
-                        : `https://image.tmdb.org/t/p/w1280${initialState.backdrop_path}`
+                      movie.image
+                        ? movie.image
+                        : `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
                     }
                     width="200"
                   />

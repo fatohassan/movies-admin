@@ -1,30 +1,26 @@
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-
-type Props = {
-  original_title: string;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-  backdrop_path: string;
-  image: string;
-  // id: number;
-};
+import { useMutation } from "@apollo/client";
+import { CREATE_MOVIE_MUTATION } from "../movieQueries/moviesMutations";
 
 export default function CreateProduct() {
-  const [validationErrors, setValidationErrors] = useState<Props>();
-  const [errors, setErrors] = useState({});
+  const [form, setForm] = useState<any>({
+    original_title: "",
+    release_date: "",
+    vote_average: "",
+    backdrop_path: "",
+    overview: "",
+  });
 
-  const [uploadedFile, setUploadedFile] = useState<string>();
-
+  const [image, setImage] = useState("");
+  const [createMovie] = useMutation(CREATE_MOVIE_MUTATION);
   const navigate = useNavigate();
+
 
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
-    setUploadedFile(base64 as string);
-    console.log(base64);
+    setImage(base64 as string);
   };
 
   const convertBase64 = (file) => {
@@ -41,34 +37,32 @@ export default function CreateProduct() {
     });
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const movie = Object.fromEntries(formData.entries());
-    console.log(movie);
-    movie["image"] = uploadedFile as FormDataEntryValue;
+  const handleSubmit = async (event: React.FormEvent<any>) => {
     try {
-      const response = await axios.post("http://localhost:5000/movie", movie, {
-        headers: {
-          "Content-Type": "application/json",
+      await createMovie({
+        variables: {
+          movieInput: {
+            original_title: form.original_title,
+            release_date: form.release_date,
+            vote_average: form.vote_average,
+            backdrop_path: form.backdrop_path,
+            overview: form.overview,
+            image: image,
+          },
         },
       });
-      const data = await response.data;
-
-      if (response.status === 201) {
-        navigate("/admin/movies/");
-      }
-
-      if (response.status === 400) {
-        console.log(data);
-      }
-
-      // setValidationErrors(data)
+      
+      setForm({
+        original_title: "",
+        release_date: "",
+        vote_average: "",
+        backdrop_path: "",
+        overview: "",
+      });
+      navigate("/admin/movies/");
     } catch (error) {
       console.log(error);
-
-      alert("unable to connect to server");
+     
     }
   };
 
@@ -76,20 +70,24 @@ export default function CreateProduct() {
     <div className="container my-4">
       <div className="row">
         <div className="col-md-8 mx-auto rounded border p-4">
-          <h2 className="text-center mb-5">Create Product</h2>
+          <h2 className="text-center mb-5">Create Movie</h2>
 
           <form onSubmit={handleSubmit}>
-            {/* <div className="row mb-3">
-              <label className="col-sm-4 col-form-label">ID</label>
-              <div className="col-sm-8">
-                <input className="form-control" name="id" />
-                <span className="text-danger">{}</span>
-              </div>
-            </div> */}
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label">Title</label>
               <div className="col-sm-8">
-                <input className="form-control" name="original_title" />
+                <input
+                  className="form-control"
+                  id="original_title"
+                  value={form.original_title}
+                  name="original_title"
+                  onChange={(event: any) =>
+                    setForm({
+                      ...form,
+                      original_title: event.currentTarget.value,
+                    })
+                  }
+                />
                 <span className="text-danger"></span>
               </div>
             </div>
@@ -98,30 +96,52 @@ export default function CreateProduct() {
               <div className="col-sm-8">
                 <input
                   className="form-control"
+                  id="vote_average"
+                  value={form.vote_average}
                   name="vote_average"
+                  onChange={(event: any) =>
+                    setForm({
+                      ...form,
+                      vote_average: event.currentTarget.value,
+                    })
+                  }
                   type="number"
                 />
-                <span className="text-danger">
-                  {validationErrors?.vote_average}
-                </span>
+                <span className="text-danger"></span>
               </div>
             </div>
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label">Release Date</label>
               <div className="col-sm-8">
-                <input className="form-control" name="release_date" />
-                <span className="text-danger">
-                  {validationErrors?.release_date}
-                </span>
+                <input
+                  className="form-control"
+                  id="release_date"
+                  value={form.release_date}
+                  name="release_date"
+                  onChange={(event: any) =>
+                    setForm({
+                      ...form,
+                      release_date: event.currentTarget.value,
+                    })
+                  }
+                />
+                <span className="text-danger"></span>
               </div>
             </div>
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label">Description</label>
               <div className="col-sm-8">
-                <textarea className="form-control" name="overview" rows={3} />
-                <span className="text-danger">
-                  {validationErrors?.overview}
-                </span>
+                <textarea
+                  className="form-control"
+                  id="overview"
+                  value={form.overview}
+                  name="overview"
+                  onChange={(event: any) =>
+                    setForm({ ...form, overview: event.currentTarget.value })
+                  }
+                  rows={3}
+                />
+                <span className="text-danger"></span>
               </div>
             </div>
             <div className="row mb-3">
@@ -129,11 +149,12 @@ export default function CreateProduct() {
               <div className="col-sm-8">
                 <input
                   className="form-control"
+                  id="image"
                   name="image"
-                  type="file"
-                  onChange={(e) => {
-                    uploadImage(e);
+                  onChange={(event) => {
+                    uploadImage(event);
                   }}
+                  type="file"
                 />
                 <span className="text-danger"></span>
               </div>

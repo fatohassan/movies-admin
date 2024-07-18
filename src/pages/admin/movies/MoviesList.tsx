@@ -1,10 +1,12 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingComponent from "../../../components/LoadingComp";
+import { useMutation, useQuery } from "@apollo/client";
+import { LOAD_MOVIES } from "../movieQueries/moviesQueries";
+import { DELETE_MOVIE_MUTATION } from "../movieQueries/moviesMutations";
 
 type Movie = {
-  id: number;
+  id: string;
   original_title: string;
   vote_average: number;
   release_date: string;
@@ -16,27 +18,28 @@ export default function MoviesList() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchMovie = async () => {
-    const res = await axios.get("http://localhost:5000/");
-    const data = await res.data;
+  const { error, loading, data, refetch } = useQuery(LOAD_MOVIES);
 
-    setMovies(data);
-  };
+  const [deleteMovie] = useMutation(DELETE_MOVIE_MUTATION);
 
   useEffect(() => {
-    fetchMovie();
+    if (data) {
+      setMovies(data.getMoviesList);
+    }
+
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  }, []);
+  }, [data]);
 
-  const deleteMovie = async (id: any) => {
-    const response = await axios.delete("http://localhost:5000/movie/" + id);
-    if (response.status === 200) {
-      fetchMovie();
-    } else {
-      throw new Error("Can not delete due to internal error");
-    }
+  const deleteMovieMutation = async (id: string) => {
+    await deleteMovie({
+      variables: {
+        id: id,
+      },
+    });
+
+    refetch();
   };
 
   return (
@@ -55,7 +58,7 @@ export default function MoviesList() {
           <button
             type="button"
             className="btn btn-outline-primary"
-            onClick={fetchMovie}
+            onClick={() => refetch()}
           >
             Refresh
           </button>
@@ -69,7 +72,6 @@ export default function MoviesList() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Title</th>
               <th>Rating</th>
               <th>Image</th>
@@ -81,7 +83,6 @@ export default function MoviesList() {
             {movies.map((movie, index) => {
               return (
                 <tr key={index}>
-                  <td>{movie.id}</td>
                   <td>{movie.original_title}</td>
                   <td>{movie.vote_average}</td>
                   <td>
@@ -107,7 +108,7 @@ export default function MoviesList() {
                     <button
                       type="button"
                       className="btn btn-danger btn-sm"
-                      onClick={() => deleteMovie(movie.id)}
+                      onClick={() => deleteMovieMutation(movie.id)}
                     >
                       Delete
                     </button>
