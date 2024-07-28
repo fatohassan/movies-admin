@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_MOVIE_MUTATION } from "../movieQueries/moviesMutations";
 
-export default function CreateProduct() {
+export default function CreateMovie() {
   const [form, setForm] = useState<any>({
     original_title: "",
     release_date: "",

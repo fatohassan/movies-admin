@@ -40,12 +40,13 @@ const getApolloClient = () =>
       ),
     ]),
     cache: new InMemoryCache(),
+    
   });
-
-root.render(
-  <React.StrictMode>
-    <ApolloProvider client={getApolloClient()}>
-      <App />
-    </ApolloProvider>
-  </React.StrictMode>
-);
+  root.render(
+    <React.StrictMode>
+      <ApolloProvider client={getApolloClient()}>
+        <App />
+      </ApolloProvider>
+    </React.StrictMode>
+  );
+  

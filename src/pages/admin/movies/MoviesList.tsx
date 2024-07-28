@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { Link } from "react-router-dom";
 import LoadingComponent from "../../../components/LoadingComp";
 import { useMutation, useQuery } from "@apollo/client";
@@ -14,23 +14,9 @@ type Movie = {
   image: string;
 };
 
-export default function MoviesList() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { error, loading, data, refetch } = useQuery(LOAD_MOVIES);
-
+const MoviesList = () => {
+  const { error, loading, data: movies, refetch } = useQuery(LOAD_MOVIES);
   const [deleteMovie] = useMutation(DELETE_MOVIE_MUTATION);
-
-  useEffect(() => {
-    if (data) {
-      setMovies(data.getMoviesList);
-    }
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, [data]);
 
   const deleteMovieMutation = async (id: string) => {
     await deleteMovie({
@@ -66,8 +52,8 @@ export default function MoviesList() {
         <div className="col"></div>
       </div>
 
-      {isLoading ? (
-        <LoadingComponent />
+      {loading ? (
+        <LoadingComponent data-testid="loading"/>
       ) : (
         <table className="table">
           <thead>
@@ -80,7 +66,7 @@ export default function MoviesList() {
             </tr>
           </thead>
           <tbody>
-            {movies.map((movie, index) => {
+            {movies.getMoviesList.map((movie, index) => {
               return (
                 <tr key={index}>
                   <td>{movie.original_title}</td>
@@ -100,7 +86,6 @@ export default function MoviesList() {
                   <td style={{ width: "10px", whiteSpace: "nowrap" }}>
                     <Link
                       className="btn btn-primary btn-sm me-1"
-                      // add the id to be edited
                       to={`/admin/movies/update/${movie.id}`}
                     >
                       Edit
@@ -121,4 +106,5 @@ export default function MoviesList() {
       )}
     </div>
   );
-}
+};
+export default MoviesList;
