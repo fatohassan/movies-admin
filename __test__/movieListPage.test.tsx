@@ -4,8 +4,7 @@ import MoviesList from "../src/pages/admin/movies/MoviesList";
 import React from "react";
 import { MockedProvider } from "@apollo/client/testing";
 import { successfulMoviesMock } from "../__mocks__/AllMovies";
-import { BrowserRouter} from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
 
 describe("MoviesList page rendering/navigating", () => {
   afterEach(() => {
@@ -21,12 +20,24 @@ describe("MoviesList page rendering/navigating", () => {
       </BrowserRouter>
     );
     expect(screen.getByText("Movies")).toBeInTheDocument();
-    expect(screen.getByRole("heading", {name: /Movies/i})).toBeInTheDocument();
-    expect(await screen.findByRole('img')).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Movies/i })
+    ).toBeInTheDocument();
     expect(screen.getByText("Create Movie")).toBeInTheDocument();
     expect(screen.getByText("Refresh")).toBeInTheDocument();
-    expect(await screen.findByText("Inside Out 2")).toBeInTheDocument();
     expect(screen.getByRole("heading")).toHaveTextContent("Movies");
+  });
+
+  it("should display table contents", async () => {
+    render(
+      <BrowserRouter>
+        <MockedProvider mocks={successfulMoviesMock} addTypename={false}>
+          <MoviesList />
+        </MockedProvider>
+      </BrowserRouter>
+    );
+    expect(await screen.findByRole("img")).toBeInTheDocument();
+    expect(await screen.findByText("Inside Out 2")).toBeInTheDocument();
     expect(screen.getByText("Title")).toBeInTheDocument();
     expect(screen.getByText("Rating")).toBeInTheDocument();
     expect(screen.getByText("Image")).toBeInTheDocument();
@@ -35,7 +46,7 @@ describe("MoviesList page rendering/navigating", () => {
     expect(await screen.findByText("Edit")).toBeInTheDocument();
     expect(await screen.findByText("Delete")).toBeInTheDocument();
   });
-  
+
   it("should display routes/links/button", async () => {
     render(
       <BrowserRouter>
@@ -46,20 +57,17 @@ describe("MoviesList page rendering/navigating", () => {
     );
     await screen.findAllByRole("link");
     screen.getAllByRole("button");
-    expect(screen.getByRole("button", { name: /Create Movie/i })).toBeInTheDocument()
-    expect(screen.getByRole("button", { name: /Refresh/i })).toBeInTheDocument()
-    expect(await screen.findByRole("button", { name: /Delete/i })).toBeInTheDocument()
-    expect(await screen.findByRole("link", { name: /Edit/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole("button", { name: /Create Movie/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /Refresh/i })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole("button", { name: /Delete/i })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole("link", { name: /Edit/i })
+    ).toBeInTheDocument();
   });
-
-  it('should display loading compenent', async () => {
-    render(
-      <BrowserRouter>
-        <MockedProvider mocks={successfulMoviesMock} addTypename={false}>
-          <MoviesList />
-        </MockedProvider>
-      </BrowserRouter>
-    );
-    const loadingComp = screen.findByTestId('loading')
-  })
 });

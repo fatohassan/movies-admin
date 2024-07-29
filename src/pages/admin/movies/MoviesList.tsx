@@ -53,7 +53,7 @@ const MoviesList = () => {
       </div>
 
       {loading ? (
-        <LoadingComponent data-testid="loading"/>
+        <LoadingComponent />
       ) : (
         <table className="table">
           <thead>

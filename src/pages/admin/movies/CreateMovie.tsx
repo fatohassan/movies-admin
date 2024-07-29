@@ -16,7 +16,6 @@ export default function CreateMovie() {
   const [createMovie] = useMutation(CREATE_MOVIE_MUTATION);
   const navigate = useNavigate();
 
-
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
@@ -51,7 +50,7 @@ export default function CreateMovie() {
           },
         },
       });
-      
+
       setForm({
         original_title: "",
         release_date: "",
@@ -62,7 +61,6 @@ export default function CreateMovie() {
       navigate("/admin/movies/");
     } catch (error) {
       console.log(error);
-     
     }
   };
 
@@ -72,11 +70,12 @@ export default function CreateMovie() {
         <div className="col-md-8 mx-auto rounded border p-4">
           <h2 className="text-center mb-5">Create Movie</h2>
 
-          <form onSubmit={handleSubmit}>
+          <form data-testid="form" onSubmit={handleSubmit}>
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label">Title</label>
               <div className="col-sm-8">
                 <input
+                  aria-label="title"
                   className="form-control"
                   id="original_title"
                   value={form.original_title}
@@ -95,6 +94,7 @@ export default function CreateMovie() {
               <label className="col-sm-4 col-form-label">Rating</label>
               <div className="col-sm-8">
                 <input
+                  aria-label="rating"
                   className="form-control"
                   id="vote_average"
                   value={form.vote_average}
@@ -114,6 +114,7 @@ export default function CreateMovie() {
               <label className="col-sm-4 col-form-label">Release Date</label>
               <div className="col-sm-8">
                 <input
+                  aria-label="date"
                   className="form-control"
                   id="release_date"
                   value={form.release_date}
@@ -132,6 +133,7 @@ export default function CreateMovie() {
               <label className="col-sm-4 col-form-label">Description</label>
               <div className="col-sm-8">
                 <textarea
+                  aria-label="overview"
                   className="form-control"
                   id="overview"
                   value={form.overview}
@@ -148,6 +150,7 @@ export default function CreateMovie() {
               <label className="col-sm-4 col-form-label">Image</label>
               <div className="col-sm-8">
                 <input
+                  aria-label="image"
                   className="form-control"
                   id="image"
                   name="image"

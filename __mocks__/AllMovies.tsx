@@ -3,6 +3,7 @@ import { renderHook } from "@testing-library/react";
 import React from "react";
 import  MoviesList  from "../src/pages/admin/movies/MoviesList";
 import { LOAD_MOVIES } from "../src/pages/admin/movieQueries/moviesQueries";
+import { CREATE_MOVIE_MUTATION } from "../src/pages/admin/movieQueries/moviesMutations";
 
 export const AllMovies = {
     getMoviesList: [
@@ -30,6 +31,17 @@ export const successfulMoviesMock: MockedResponse[]= [
         }
     }
 ] 
+
+export const moviesMutationsMock: MockedResponse[]=[
+    {
+        request: {
+            query: CREATE_MOVIE_MUTATION
+        },
+        result: {
+            data: AllMovies
+        }
+    }
+]
 
 export function getAllMoviesWrapper(mockData: MockedResponse[] = []) {
     const wrapper =({children}: React.PropsWithChildren) => (
