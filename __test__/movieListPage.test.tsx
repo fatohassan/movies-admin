@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import MoviesList from "../src/pages/admin/movies/MoviesList";
 import React from "react";
 import { MockedProvider } from "@apollo/client/testing";
-import { successfulMoviesMock } from "../__mocks__/AllMovies";
+import { listMoviesMock } from "../__mocks__/AllMovies";
 import { BrowserRouter } from "react-router-dom";
 
 describe("MoviesList page rendering/navigating", () => {
@@ -14,7 +14,7 @@ describe("MoviesList page rendering/navigating", () => {
   it("should display contents", async () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={successfulMoviesMock} addTypename={false}>
+        <MockedProvider mocks={listMoviesMock} addTypename={false}>
           <MoviesList />
         </MockedProvider>
       </BrowserRouter>
@@ -31,7 +31,7 @@ describe("MoviesList page rendering/navigating", () => {
   it("should display table contents", async () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={successfulMoviesMock} addTypename={false}>
+        <MockedProvider mocks={listMoviesMock} addTypename={false}>
           <MoviesList />
         </MockedProvider>
       </BrowserRouter>
@@ -50,7 +50,7 @@ describe("MoviesList page rendering/navigating", () => {
   it("should display routes/links/button", async () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={successfulMoviesMock} addTypename={false}>
+        <MockedProvider mocks={listMoviesMock} addTypename={false}>
           <MoviesList />
         </MockedProvider>
       </BrowserRouter>

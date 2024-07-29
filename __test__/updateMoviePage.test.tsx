@@ -1,37 +1,40 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import CreateMovie from "../src/pages/admin/movies/CreateMovie";
+import UpdateMovie from "../src/pages/admin/movies/UpdateMovie";
 import React from "react";
 import { MockedProvider } from "@apollo/client/testing";
 import { BrowserRouter } from "react-router-dom";
-import { createMovieMutationsMock } from "../__mocks__/AllMovies";
+import { updateMovieMutationsMock } from "../__mocks__/AllMovies";
 
-describe("Create Movie rendering navigating", () => {
+describe("Update Movie rendering navigating", () => {
   render(
     <BrowserRouter>
-      <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-        <CreateMovie />
+      <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+        <UpdateMovie />
       </MockedProvider>
     </BrowserRouter>
   );
 
   it("should display contents", () => {
     const headingElement = screen.getByRole("heading", {
-      name: /Create Movie/i,
+      name: /Edit Movie/i,
     });
     expect(headingElement).toBeInTheDocument();
+    expect(screen.getByText("ID")).toBeVisible();
   });
 
   it("should display form contents/inputs/buttons", async () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-          <CreateMovie />
+        <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+          <UpdateMovie />
         </MockedProvider>
       </BrowserRouter>
     );
-    expect(screen.getByTestId("form")).toBeInTheDocument();
-    expect(screen.getByText("Title")).toBeInTheDocument();
+
+    screen.getByLabelText("form");
+    await screen.findByText("Title");
+    expect(await screen.findByText("Title")).toBeInTheDocument();
     expect(screen.getByText("Rating")).toBeInTheDocument();
     expect(screen.getByText("Image")).toBeInTheDocument();
     expect(screen.getByText("Description")).toBeInTheDocument();
@@ -47,8 +50,8 @@ describe("Create Movie rendering navigating", () => {
   it("should be able to type in title inuput", () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-          <CreateMovie />
+        <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+          <UpdateMovie />
         </MockedProvider>
       </BrowserRouter>
     );
@@ -61,8 +64,8 @@ describe("Create Movie rendering navigating", () => {
   it("should be able to type in rating inuput", () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-          <CreateMovie />
+        <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+          <UpdateMovie />
         </MockedProvider>
       </BrowserRouter>
     );
@@ -75,8 +78,8 @@ describe("Create Movie rendering navigating", () => {
   it("should be able to type in description inuput", () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-          <CreateMovie />
+        <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+          <UpdateMovie />
         </MockedProvider>
       </BrowserRouter>
     );
@@ -84,11 +87,12 @@ describe("Create Movie rendering navigating", () => {
     fireEvent.change(inputOverview, { EventTarget: { value: "Good Movie" } });
     expect(inputOverview).toBeVisible();
   });
+
   it("should be able to type in description inuput", () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-          <CreateMovie />
+        <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+          <UpdateMovie />
         </MockedProvider>
       </BrowserRouter>
     );
@@ -103,8 +107,8 @@ describe("Create Movie rendering navigating", () => {
   it("should be able to type in image inuput", () => {
     render(
       <BrowserRouter>
-        <MockedProvider mocks={createMovieMutationsMock} addTypename={false}>
-          <CreateMovie />
+        <MockedProvider mocks={updateMovieMutationsMock} addTypename={false}>
+          <UpdateMovie />
         </MockedProvider>
       </BrowserRouter>
     );

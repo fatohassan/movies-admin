@@ -171,6 +171,7 @@ export default function CreateMovie() {
               </div>
               <div className="col-sm-4 d-grid">
                 <Link
+                aria-label="link"
                   className="btn btn-secondary"
                   to="/admin/movies"
                   role="button"

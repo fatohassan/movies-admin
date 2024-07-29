@@ -1,12 +1,15 @@
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { renderHook } from "@testing-library/react";
 import React from "react";
-import  MoviesList  from "../src/pages/admin/movies/MoviesList";
+import MoviesList from "../src/pages/admin/movies/MoviesList";
 import { LOAD_MOVIES } from "../src/pages/admin/movieQueries/moviesQueries";
-import { CREATE_MOVIE_MUTATION } from "../src/pages/admin/movieQueries/moviesMutations";
+import {
+  CREATE_MOVIE_MUTATION,
+  UPDATE_MOVIE_MUTATION,
+} from "../src/pages/admin/movieQueries/moviesMutations";
 
 export const AllMovies = {
-    getMoviesList: [
+  getMoviesList: [
     {
       id: "66715c4f88c42067190e070f",
       original_title: "Inside Out 2",
@@ -21,36 +24,46 @@ export const AllMovies = {
 };
 
 // successful mock of getMovieList
-export const successfulMoviesMock: MockedResponse[]= [
-    {
-        request: {
-            query: LOAD_MOVIES
-        },
-        result: {
-            data: AllMovies
-        }
-    }
-] 
+export const listMoviesMock: MockedResponse[] = [
+  {
+    request: {
+      query: LOAD_MOVIES,
+    },
+    result: {
+      data: AllMovies,
+    },
+  },
+];
 
-export const moviesMutationsMock: MockedResponse[]=[
-    {
-        request: {
-            query: CREATE_MOVIE_MUTATION
-        },
-        result: {
-            data: AllMovies
-        }
-    }
-]
+export const createMovieMutationsMock: MockedResponse[] = [
+  {
+    request: {
+      query: CREATE_MOVIE_MUTATION,
+    },
+    result: {
+      data: AllMovies,
+    },
+  },
+];
+export const updateMovieMutationsMock: MockedResponse[] = [
+  {
+    request: {
+      query: UPDATE_MOVIE_MUTATION,
+    },
+    result: {
+      data: AllMovies,
+    },
+  },
+];
 
 export function getAllMoviesWrapper(mockData: MockedResponse[] = []) {
-    const wrapper =({children}: React.PropsWithChildren) => (
-        <MockedProvider mocks={mockData} addTypename={false}>
-            {children}
-        </MockedProvider>
-    );
-    const {result}:any = renderHook(() => MoviesList(), {wrapper})
-    return {
-        result
-    }
+  const wrapper = ({ children }: React.PropsWithChildren) => (
+    <MockedProvider mocks={mockData} addTypename={false}>
+      {children}
+    </MockedProvider>
+  );
+  const { result }: any = renderHook(() => MoviesList(), { wrapper });
+  return {
+    result,
+  };
 }

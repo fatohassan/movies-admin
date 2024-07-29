@@ -14,7 +14,7 @@ export const LOAD_MOVIES = gql`
   }
 `;
 
-export const LOAD_MOVIE = gql `
+export const LOAD_MOVIE = gql`
   query movie($id: String!) {
     movie(ID: $id) {
       id
@@ -26,4 +26,4 @@ export const LOAD_MOVIE = gql `
       image
     }
   }
-`
+`;
