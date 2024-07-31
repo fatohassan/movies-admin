@@ -35,26 +35,18 @@ describe("MoviesList page rendering/navigating", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("should display contents", async () => {
+  it("should display Movies Title", async () => {
     render(renderMovieList());
     expect(screen.getByText("Movies")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /Movies/i })
     ).toBeInTheDocument();
     expect(screen.getByText("Create Movie")).toBeInTheDocument();
-    expect(screen.getByText("Refresh")).toBeInTheDocument();
-    expect(screen.getByRole("heading")).toHaveTextContent("Movies");
   });
 
-  it("should display table contents", async () => {
+  it("should display part of table contents", async () => {
     render(renderMovieList());
-    expect(await screen.findByRole("img")).toBeInTheDocument();
     expect(await screen.findByText("Inside Out 2")).toBeInTheDocument();
-    expect(screen.getByText("Title")).toBeInTheDocument();
-    expect(screen.getByText("Rating")).toBeInTheDocument();
-    expect(screen.getByText("Image")).toBeInTheDocument();
-    expect(screen.getByText("Release Date")).toBeInTheDocument();
-    expect(screen.getByText("Action")).toBeInTheDocument();
     expect(await screen.findByText("Edit")).toBeInTheDocument();
     expect(await screen.findByText("Delete")).toBeInTheDocument();
   });

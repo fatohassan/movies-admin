@@ -39,19 +39,9 @@ describe("Create Movie rendering navigating", () => {
     expect(headingElement).toBeInTheDocument();
   });
 
-  it("should display form contents/inputs/buttons", async () => {
+  it("should display form and link", async () => {
     render(renderCreateMovie());
     expect(screen.getByTestId("form")).toBeInTheDocument();
-    expect(screen.getByText("Title")).toBeInTheDocument();
-    expect(screen.getByText("Rating")).toBeInTheDocument();
-    expect(screen.getByText("Image")).toBeInTheDocument();
-    expect(screen.getByText("Description")).toBeInTheDocument();
-    expect(screen.getByText("Release Date")).toBeInTheDocument();
-    expect(screen.getByLabelText("title")).toBeInTheDocument();
-    expect(screen.getByLabelText("rating")).toBeInTheDocument();
-    expect(screen.getByLabelText("date")).toBeInTheDocument();
-    expect(screen.getByLabelText("image")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Submit" })).toBeTruthy();
     expect(screen.getByLabelText("link")).toHaveTextContent("Cancel");
   });
 

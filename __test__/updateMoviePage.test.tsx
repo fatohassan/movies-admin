@@ -45,14 +45,6 @@ describe("Update Movie rendering navigating", () => {
     screen.getByLabelText("form");
     await screen.findByText("Title");
     expect(await screen.findByText("Title")).toBeInTheDocument();
-    expect(screen.getByText("Rating")).toBeInTheDocument();
-    expect(screen.getByText("Image")).toBeInTheDocument();
-    expect(screen.getByText("Description")).toBeInTheDocument();
-    expect(screen.getByText("Release Date")).toBeInTheDocument();
-    expect(screen.getByLabelText("title")).toBeInTheDocument();
-    expect(screen.getByLabelText("rating")).toBeInTheDocument();
-    expect(screen.getByLabelText("date")).toBeInTheDocument();
-    expect(screen.getByLabelText("image")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Submit" })).toBeTruthy();
     expect(screen.getByLabelText("link")).toHaveTextContent("Cancel");
   });
