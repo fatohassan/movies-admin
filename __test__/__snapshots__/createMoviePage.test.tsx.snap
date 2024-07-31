@@ -1,0 +1,349 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Movie rendering navigating should render links correctly 1`] = `
+<div
+  className="container my-4"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-md-8 mx-auto rounded border p-4"
+    >
+      <h2
+        className="text-center mb-5"
+      >
+        Create Movie
+      </h2>
+      <form
+        data-testid="form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Title
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="title"
+              className="form-control"
+              id="original_title"
+              name="original_title"
+              onChange={[Function]}
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Rating
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="rating"
+              className="form-control"
+              id="vote_average"
+              name="vote_average"
+              onChange={[Function]}
+              type="number"
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Release Date
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="date"
+              className="form-control"
+              id="release_date"
+              name="release_date"
+              onChange={[Function]}
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Description
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <textarea
+              aria-label="overview"
+              className="form-control"
+              id="overview"
+              name="overview"
+              onChange={[Function]}
+              rows={3}
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Image
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="image"
+              className="form-control"
+              id="image"
+              name="image"
+              onChange={[Function]}
+              type="file"
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="offset-sm-4 col-sm-4 d-grid"
+          >
+            <button
+              className="btn btn-primary"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+          <div
+            className="col-sm-4 d-grid"
+          >
+            <a
+              aria-label="link"
+              className="btn btn-secondary"
+              href="/admin/movies"
+              onClick={[Function]}
+              role="button"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Create Movie rendering navigating should render page correctly 1`] = `
+<div
+  className="container my-4"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-md-8 mx-auto rounded border p-4"
+    >
+      <h2
+        className="text-center mb-5"
+      >
+        Create Movie
+      </h2>
+      <form
+        data-testid="form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Title
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="title"
+              className="form-control"
+              id="original_title"
+              name="original_title"
+              onChange={[Function]}
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Rating
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="rating"
+              className="form-control"
+              id="vote_average"
+              name="vote_average"
+              onChange={[Function]}
+              type="number"
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Release Date
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="date"
+              className="form-control"
+              id="release_date"
+              name="release_date"
+              onChange={[Function]}
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Description
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <textarea
+              aria-label="overview"
+              className="form-control"
+              id="overview"
+              name="overview"
+              onChange={[Function]}
+              rows={3}
+              value=""
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row mb-3"
+        >
+          <label
+            className="col-sm-4 col-form-label"
+          >
+            Image
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <input
+              aria-label="image"
+              className="form-control"
+              id="image"
+              name="image"
+              onChange={[Function]}
+              type="file"
+            />
+            <span
+              className="text-danger"
+            />
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="offset-sm-4 col-sm-4 d-grid"
+          >
+            <button
+              className="btn btn-primary"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+          <div
+            className="col-sm-4 d-grid"
+          >
+            <a
+              aria-label="link"
+              className="btn btn-secondary"
+              href="/admin/movies"
+              onClick={[Function]}
+              role="button"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

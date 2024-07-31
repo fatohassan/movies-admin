@@ -3,22 +3,40 @@ import "@testing-library/jest-dom";
 import MoviesList from "../src/pages/admin/movies/MoviesList";
 import React from "react";
 import { MockedProvider } from "@apollo/client/testing";
+import renderer from "react-test-renderer";
 import { listMoviesMock } from "../__mocks__/AllMovies";
 import { BrowserRouter } from "react-router-dom";
+
+const renderMovieList = () => {
+  return (
+    <BrowserRouter>
+      <MockedProvider mocks={listMoviesMock} addTypename={false}>
+        <MoviesList />
+      </MockedProvider>
+    </BrowserRouter>
+  );
+};
 
 describe("MoviesList page rendering/navigating", () => {
   afterEach(() => {
     cleanup();
   });
 
+  it("should render page correctly", () => {
+    const tree = renderer
+      .create(
+        <BrowserRouter>
+          <MockedProvider mocks={listMoviesMock} addTypename={false}>
+            <MoviesList />
+          </MockedProvider>
+        </BrowserRouter>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
   it("should display contents", async () => {
-    render(
-      <BrowserRouter>
-        <MockedProvider mocks={listMoviesMock} addTypename={false}>
-          <MoviesList />
-        </MockedProvider>
-      </BrowserRouter>
-    );
+    render(renderMovieList());
     expect(screen.getByText("Movies")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /Movies/i })
@@ -29,13 +47,7 @@ describe("MoviesList page rendering/navigating", () => {
   });
 
   it("should display table contents", async () => {
-    render(
-      <BrowserRouter>
-        <MockedProvider mocks={listMoviesMock} addTypename={false}>
-          <MoviesList />
-        </MockedProvider>
-      </BrowserRouter>
-    );
+    render(renderMovieList());
     expect(await screen.findByRole("img")).toBeInTheDocument();
     expect(await screen.findByText("Inside Out 2")).toBeInTheDocument();
     expect(screen.getByText("Title")).toBeInTheDocument();
@@ -48,13 +60,7 @@ describe("MoviesList page rendering/navigating", () => {
   });
 
   it("should display routes/links/button", async () => {
-    render(
-      <BrowserRouter>
-        <MockedProvider mocks={listMoviesMock} addTypename={false}>
-          <MoviesList />
-        </MockedProvider>
-      </BrowserRouter>
-    );
+    render(renderMovieList());
     await screen.findAllByRole("link");
     screen.getAllByRole("button");
     expect(
